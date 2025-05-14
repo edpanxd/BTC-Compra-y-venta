@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Bitcoin</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+    <%= javascript_importmap_tags %>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js" integrity="sha384-j1CDi7MgGQ12Z7Qab0qlWQ/Qqz24Gc6BM0thvEMVjHnfYGF0rmFCozFSxQBxwHKO" crossorigin="anonymous"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4Q6Gf2aSP4eDXB8Miphtr37CMZZQ5oXLH2yaXMJ2w8e2ZtHTl7GptT4jmndRuHDT" crossorigin="anonymous">
+  </head>
+
+  <body class="bg">
+    <nav class="navbar bg-dark ">
+      <div class="container-fluid ">
+      <a class="navbar-brand fw-semibold text-white" href="#">
+        <img src="https://cdn-icons-png.flaticon.com/512/2157/2157572.png " alt="Logo" width="30" height="30" class="d-inline-block align-text-top">
+        BTC Compra y venta
+      </a>
+      <p class="navbar-brand text-white"><b>Usuario:</b> <%= @usuario.nombre %> | <b>Saldo Actual:</b> $<%= number_with_delimiter(@usuario.saldo, precision: 2 ) %> USD | <b>Cartera:</b> <%= "%.0f" % @usuario.cartera %> BTC</p>
+      </div>
+    </nav>
+    <section class="m-5">
+      <%= yield %>
+    </section>
+  </body>
+</html>

@@ -1,0 +1,190 @@
+<% flash.each do |type, msg| %>
+  <div class="alert alert-<%= type %>">
+    <%= msg %>
+  </div>
+<% end %>
+<div class="bg-car rounded">
+  <h1 class="fw-medium text-center">Precio del Bitcoin</h1>
+
+  <h3 class="fw-medium">El precio actual es: <b>$<%= number_with_delimiter(@price, precision: 8 ) %> USD</b></h3>
+</div>
+
+
+<div class="row mt-3">
+  <div class="col-lg-6">
+    <div class="d-grid gap-2 m-1">
+    <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#compra">
+      Comprar
+    </button>
+    </div>
+    <table class="table table-bordered table-striped table-hover">
+       <thead>
+        <tr>
+          <th scope="col">Usuario</th>
+          <th scope="col">Moneda a Comprar</th>
+          <th scope="col">Cantidad</th>
+          <th scope="col">Precio</th>
+          <th scope="col">Moneda de pago</th>
+          <th scope="col">Pago</th>
+          <th scope="col">Fecha</th>
+        </tr>
+      </thead>
+      <tbody>
+          <% @Tcompra.each do |item| %>
+          <tr>
+            <td><%=item.usuario%></td>
+            <td><%=item.monedaE%></td>
+            <td><%=item.cantidad%></td>
+            <td><%=item.precio%></td>
+            <td><%=item.monedaR%></td>
+            <td><%=item.pago%></td>
+            <td><%=item.created_at.strftime("%d/%m/%Y")%></td>
+          </tr>
+          <% end %>
+
+      </tbody>
+    </table>
+  </div>
+  <div class="col-lg-6">
+    <div class="d-grid gap-2 m-1">
+    <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#venta">
+      Venta
+    </button>
+    <table class="table table-bordered table-striped table-hover ">
+       <thead>
+        <tr>
+          <th scope="col">Usuario</th>
+          <th scope="col">Moneda a Vender</th>
+          <th scope="col">Cantidad</th>
+          <th scope="col">Precio</th>
+          <th scope="col">Moneda de pago</th>
+          <th scope="col">Pago</th>
+          <th scope="col">Fecha</th>
+        </tr>
+      </thead>
+      <tbody>
+          <% @Tventa.each do |item| %>
+          <tr>
+            <td><%=item.usuario%></td>
+            <td><%=item.monedaE%></td>
+            <td><%=item.cantidad%></td>
+            <td><%=item.precio%></td>
+            <td><%=item.monedaR%></td>
+            <td><%=item.pago%></td>
+            <td><%=item.created_at.strftime("%d/%m/%Y")%></td>
+          </tr>
+          <% end %>
+
+      </tbody>
+    </table>
+  </div>
+</div>
+
+
+
+
+<!-- Modal Compra -->
+<div class="modal fade" id="compra" tabindex="-1" aria-labelledby="compraLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="compraLabel">Modal C</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <%= form_with(url: compra_path, method: :post) do |form| %>
+          <div class="field">
+          <%= form.label :"Usuario",class:"form-label" %>
+          <%= form.collection_select :usuario, Usuario.all, :id, :nombre,{}, {class: "form-select"}  %>
+          <%= form.label :"Moneda a Comprar",class:"form-label" %>
+          <%=form.text_field :monedaE ,class:"form-control", value: "BTC", readonly: true%>
+          <%= form.label :"Cantidad" %>
+          <%= form.number_field :cantidad,class:"form-control", id: "cantidadC" %>
+          <%= form.label :"precio" %>
+          <%= form.number_field :precio,class:"form-control", value: @price%>
+          <%= form.label :"Moneda de pago",class:"form-label" %>
+          <%=form.text_field :monedaR ,class:"form-control", value: "USD", readonly: true%>
+          <%= form.label :"Descuento",class:"form-label"%>
+          <%=form.text_field :pago ,class:"form-control", id: "totalC"%>
+          <%= form.label :"Tipo",class:"form-label"%>
+          <%=form.text_field :tipo ,class:"form-control", value: "Compra", readonly: true%>
+          </div>
+          <%= form.submit "enviar", class: "m-3 btn btn-primary" %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Modal Compra -->
+
+<!-- Modal Venta -->
+<div class="modal fade" id="venta" tabindex="-1" aria-labelledby="ventaLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="MventaLabel">Modal V</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <%= form_with(url: venta_path, method: :post) do |form| %>
+          <div class="field">
+          <%= form.label :"Usuario",class:"form-label" %>
+          <%= form.collection_select :usuario, Usuario.all, :id, :nombre,{}, {class: "form-select"}  %>
+          <%= form.label :"Moneda a Vender",class:"form-label" %>
+          <%=form.text_field :monedaE ,class:"form-control", value: "BTC", readonly: true%>
+          <%= form.label :"Cantidad" %>
+          <%= form.number_field :cantidad,class:"form-control", id: "cantidadV" %>
+          <%= form.label :"precio" %>
+          <%= form.number_field :precio,class:"form-control", value: @price%>
+          <%= form.label :"Moneda de Pago",class:"form-label" %>
+          <%=form.text_field :monedaR ,class:"form-control", value: "USD", readonly: true%>
+          <%= form.label :"Pago",class:"form-label"%>
+          <%=form.text_field :pago ,class:"form-control", id: "totalV"%>
+          <%= form.label :"Tipo",class:"form-label"%>
+          <%=form.text_field :tipo ,class:"form-control", value: "Venta", readonly: true%>
+
+          </div>
+          <%= form.submit "enviar", class: "m-3 btn btn-primary" %>
+        <% end %>
+      </div>
+
+    </div>
+  </div>
+</div>
+<!-- Modal Venta -->
+
+
+
+
+
+<script>
+  function setupEventListeners() {
+  let cantidadInputC = document.getElementById('cantidadC');
+  let totalInputC = document.getElementById('totalC');
+  let cantidadInputV = document.getElementById('cantidadV');
+  let totalInputV = document.getElementById('totalV');
+  // Escuchar cambios en ambos inputs
+  [cantidadInputC].forEach(input => {
+    input.addEventListener('input', calcularTotalC);
+  });
+
+  [cantidadInputV].forEach(input => {
+    input.addEventListener('input', calcularTotalV);
+  });
+
+  function calcularTotalC() {
+    let cantidad = parseFloat(cantidadInputC.value) || 0;
+    let precio = parseFloat(<%="%.8f" % @price%>) || 0;
+    totalInputC.value = (cantidad * precio).toFixed(2);
+  }
+
+  function calcularTotalV() {
+    let cantidadV = parseFloat(cantidadInputV.value) || 0;
+    let precioV = parseFloat(<%="%.8f" % @price%>) || 0;
+    totalInputV.value = (cantidadV * precioV).toFixed(2);
+  }
+  }
+
+  document.addEventListener('DOMContentLoaded', setupEventListeners);
+  document.addEventListener('turbo:load', setupEventListeners);
+</script>
